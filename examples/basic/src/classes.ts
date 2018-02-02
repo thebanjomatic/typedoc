@@ -81,9 +81,9 @@ export abstract class BaseClass implements INameInterface
     constructor() {
         if (arguments.length > 0) {
             if (typeof arguments[0] == 'string') {
-                this.name = arguments[0];
+                this['name'] = arguments[0];
             } else if (arguments[0] instanceof BaseClass) {
-                this.name = arguments[0].name;
+                this['name'] = arguments[0].name;
             }
         }
 
