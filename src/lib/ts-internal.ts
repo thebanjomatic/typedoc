@@ -22,6 +22,13 @@ declare module 'typescript' {
   }
 }
 
+function applyWithDiag(fnName: string, thisVal: any, args: IArguments) {
+   if (tsany[fnName] === undefined) {
+     throw new Error(`${fnName} was not found`);
+   }
+   return tsany[fnName].apply(thisVal, args);
+}
+
 /**
  * These functions are in "core" and are marked as @internal:
  * https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/core.ts#L9-L10
@@ -31,29 +38,29 @@ declare module 'typescript' {
 export function createCompilerDiagnostic(message: ts.DiagnosticMessage, ...args: (string | number)[]): ts.Diagnostic;
 export function createCompilerDiagnostic(message: ts.DiagnosticMessage): ts.Diagnostic;
 export function createCompilerDiagnostic() {
-  return tsany.createCompilerDiagnostic.apply(this, arguments);
+  return applyWithDiag('createCompilerDiagnostic', this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/core.ts#L1191
 export function compareValues<T>(a: T, b: T): number {
-  return tsany.compareValues.apply(this, arguments); // Actually returns a ts.Comparison which is also internal
+   return applyWithDiag('compareValues', this, arguments); // Actually returns a ts.Comparison which is also internal
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/core.ts#L1281
 export function normalizeSlashes(path: string): string {
-  return tsany.normalizeSlashes.apply(this, arguments);
+  return applyWithDiag('normalizeSlashes', this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/core.ts#L1288
 export function getRootLength(path: string): number {
-  return tsany.getRootLength.apply(this, arguments);
+  return applyWithDiag('getRootLength', this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/core.ts#L1368-L1370
 export function getDirectoryPath(path: ts.Path): ts.Path;
 export function getDirectoryPath(path: string): string;
 export function getDirectoryPath() {
-  return tsany.getDirectoryPath.apply(this, arguments);
+  return applyWithDiag('getDirectoryPath', this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.2.1/src/compiler/core.ts#L1418
@@ -73,42 +80,42 @@ export function combinePaths(path1: string, path2: string): string {
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L152
 export function getSourceFileOfNode(node: ts.Node): ts.SourceFile {
-  return tsany.getSourceFileOfNode.apply(this, arguments);
+  return applyWithDiag('getSourceFileOfNode', this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L301
 export function getTextOfNode(node: ts.Node, includeTrivia = false): string {
-  return tsany.getTextOfNode.apply(this, arguments);
+  return applyWithDiag('getTextOfNode', this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L473
 export function declarationNameToString(name: ts.DeclarationName): string {
-  return tsany.declarationNameToString.apply(this, arguments);
+  return applyWithDiag('declarationNameToString', this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1423
 export function getJSDocCommentRanges(node: ts.Node, text: string) {
-  return tsany.getJSDocCommentRanges.apply(this, arguments);
+  return applyWithDiag('getJSDocCommentRanges', this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L3738
 export function isBindingPattern(node: ts.Node): node is ts.BindingPattern {
-  return tsany.isBindingPattern.apply(this, arguments);
+  return applyWithDiag('isBindingPattern', this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1729
-export function getClassExtendsHeritageClauseElement(node: ts.ClassLikeDeclaration | ts.InterfaceDeclaration) {
-  return tsany.getClassExtendsHeritageClauseElement.apply(this, arguments);
+export function getClassExtendsHeritageElement(node: ts.ClassLikeDeclaration | ts.InterfaceDeclaration) {
+  return applyWithDiag('getClassExtendsHeritageElement', this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1734
 export function getClassImplementsHeritageClauseElements(node: ts.ClassLikeDeclaration) {
-  return tsany.getClassImplementsHeritageClauseElements.apply(this, arguments);
+  return applyWithDiag('getClassImplementsHeritageClauseElements', this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1739
 export function getInterfaceBaseTypeNodes(node: ts.InterfaceDeclaration) {
-  return tsany.getInterfaceBaseTypeNodes.apply(this, arguments);
+  return applyWithDiag('getInterfaceBaseTypeNodes', this, arguments);
 }
 
 /**
